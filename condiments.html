@@ -154,10 +154,7 @@
         onclick="redirectToBeveragePage()"
       ></div>
       <ul class="selected-condiments" id="selectedCondiments"></ul>
-      <button
-        class="confirm-button"
-        onclick="window.location.href = 'confirmation.html'"
-      >
+      <button class="confirm-button" onclick="confirmOrder()">
         Confirm Order
       </button>
     </div>
@@ -188,9 +185,54 @@
             selectedCondimentsList.children[condimentIndex]
           );
         }
-        function confirmOrder() {
-          window.location.href = "confirmation.html";
-        }
+      }
+      let host = "https://coffee-order-latest-lfzd.onrender.com/orders";
+      function confirmOrder() {
+        // window.location.href = "confirmation.html";
+        const selectedBeverage = document
+          .getElementById("selectedBeverage")
+          .textContent.trim();
+
+        const selectedCondimentsList =
+          document.getElementById("selectedCondiments");
+        const selectedCondiments = Array.from(
+          selectedCondimentsList.children
+        ).map((li) => li.textContent.trim());
+
+        const orderData = {
+          beverage: selectedBeverage,
+          condiments: selectedCondiments,
+        };
+        console.log(orderData);
+
+        fetch(host, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Failed to confirm order");
+            }
+          })
+          .then((data) => {
+            // Handle the response data as needed
+            console.log("Order confirmed:", data);
+            const receiptJson = JSON.stringify(data);
+
+            // Redirect to the confirmation page
+            window.location.href = `confirmation.html?receipt=${encodeURIComponent(
+              receiptJson
+            )}`;
+          })
+          .catch((error) => {
+            console.error("Error confirming order:", error);
+            // Handle error as needed
+          });
       }
     </script>
   </body>
