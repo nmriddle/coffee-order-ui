@@ -223,7 +223,7 @@
             // Handle the response data as needed
             console.log("Order confirmed:", data);
             const receiptJson = JSON.stringify(data);
-
+            console.log();
             // Redirect to the confirmation page
             window.location.href = `confirmation.html?receipt=${encodeURIComponent(
               receiptJson
