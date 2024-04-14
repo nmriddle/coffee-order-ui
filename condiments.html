@@ -137,6 +137,7 @@
         </div>
         <div class="right-align">
           <a href="status.html">Order Status</a>
+          <a href="login.html">Login</a>
         </div>
       </nav>
     </header>
@@ -186,6 +187,7 @@
           );
         }
       }
+      // let host = "http://localhost:8080/orders";
       let host = "https://coffee-order-latest-lfzd.onrender.com/orders";
       function confirmOrder() {
         // window.location.href = "confirmation.html";
@@ -209,6 +211,7 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${configuration.token()}`,
           },
           body: JSON.stringify(orderData),
         })
@@ -235,5 +238,6 @@
           });
       }
     </script>
+    <script src="configuration.js"></script>
   </body>
 </html>
